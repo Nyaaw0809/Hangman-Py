@@ -71,16 +71,41 @@ class Game():
         #self.lose = False
         self.guessed_words = 0
         self.hangman_status = 0
-        self.categories = ["Animals", "Trees", "Countries"]
+        file = open('categ.txt', 'r')
+        f = file.readlines()
+        categ = []
+        for ln in f:
+            categ.append(ln.strip())
+        print(categ)
+        file.close()
+        self.categories = categ
         self.word = ""
         self.category = ""
-        self.words_animal = ["Cat", "Dog", "Donkey", "Goat", "Horse", "Pig", "Rabbit", "Bat", "Bear"]
-        self.words_tree = ["Acacia", "Bamboo", "Narra", "Oak", "Palm", "Spruce", "Maple", "Redwood"]
-        self.words_countries = ["Afghanistan", "Belgium", "Cambodia", "Egypt", "India", "Philippines", "Poland",
-                                "Spain",
-                                "Turkey"]
+        file = open('animals.txt', 'r')
+        f = file.readlines()
+        anim = []
+        for ln in f:
+            anim.append(ln.strip())
+        print(anim)
+        file.close()
+        self.words_animal = anim
+        file = open('trees.txt', 'r')
+        f = file.readlines()
+        trees = []
+        for ln in f:
+            trees.append(ln.strip())
+        print(trees)
+        file.close()
+        self.words_tree = trees
+        file = open('countries.txt', 'r')
+        f = file.readlines()
+        countries = []
+        for ln in f:
+            countries.append(ln.strip())
+        print(countries)
+        file.close()
+        self.words_countries = countries
         self.guessed = []
-
         self.font_name = pygame.font.get_default_font()
         self.BLACK, self.WHITE, self.BG = (0, 0, 0), (255, 255, 255),(70, 74, 86)
         self.main_menu = MainMenu(self)
@@ -208,22 +233,24 @@ class Game():
                     if letter not in self.guessed:
                         won = False
                         if self.hangman_status >= 5:
-                            self.playing = False
-                            self.hint_count = 0
-                            self.score = 0
-                            self.guessed = []
-                            self.hangman_status = 0
                             print("You lose!")
                             lose = "You lose! The mystery word is " + self.word
                             self.display.fill(self.BG)
                             text = self.WORD_FONT.render(lose, 1, (218, 239, 244))
                             self.display.blit(text, (
-                            self.DISPLAY_W / 2 - text.get_width() / 2, self.DISPLAY_H / 2 - text.get_height() / 2))
+                                self.DISPLAY_W / 2 - text.get_width() / 2, self.DISPLAY_H / 2 - text.get_height() / 2))
+
+                            self.playing = False
+                            self.hint_count = 0
+                            self.score = 0
+                            self.guessed = []
+                            self.hangman_status = 0
+
                             self.window.blit(self.display, (0, 0))
                             pygame.display.update()
                             self.randomize()
                             self.game_loop()
-                            pygame.time.delay(3000)
+                            pygame.time.delay(2400)
 
                         break
                 if won:
