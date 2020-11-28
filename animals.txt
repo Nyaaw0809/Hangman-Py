@@ -1,0 +1,9 @@
+Cat
+Dog
+Donkey
+Goat
+Horse
+Pig
+Rabbit
+Bat
+Bear
