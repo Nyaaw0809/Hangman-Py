@@ -62,7 +62,7 @@ class Game():
         self.SCORE_FONT = pygame.font.SysFont('Broadway', 60)
         self.TITLE_FONT = pygame.font.SysFont('PRIMETIME Regular', 90)
         self.images = []
-        for i in range(5):
+        for i in range(7):
             image = pygame.image.load("hangman" + str(i) + ".png")
             self.images.append(image)
         #INGAME vars
@@ -134,9 +134,9 @@ class Game():
     def new_word(self):
 
         self.hint_btn.draw(self.display, None)
-        self.display.blit(self.images[self.hangman_status], (40, 120))
+        self.display.blit(self.images[self.hangman_status], (15, 5))
         categ_text = self.TITLE_FONT.render(self.category, 1, (218, 239, 244))
-        self.display.blit(categ_text, (self.DISPLAY_W / 2 - categ_text.get_width() / 2, 20))
+        self.display.blit(categ_text, (self.DISPLAY_W / 2 - categ_text.get_width() / 2, 50))
 
         display_word = ""
         for letter in self.word:
@@ -232,7 +232,7 @@ class Game():
                 for letter in self.word:
                     if letter not in self.guessed:
                         won = False
-                        if self.hangman_status >= 5:
+                        if self.hangman_status >= 7:
                             print("You lose!")
                             lose = "You lose! The mystery word is " + self.word
                             self.display.fill(self.BG)
