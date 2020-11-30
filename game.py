@@ -39,7 +39,6 @@ class Game():
     def __init__(self):
         pygame.init()
         self.hint_count = 0
-
         self.hint_btn = button((215, 203, 69),972, 417,200,90,'Hint')
         self.running, self.playing = True, False
         self.UP_KEY, self.DOWN_KEY, self.START_KEY, self.BACK_KEY, self.MOUSE_CLICK = False, False, False, False, False
@@ -62,10 +61,15 @@ class Game():
         self.SCORE_FONT = pygame.font.SysFont('Broadway', 60)
         self.TITLE_FONT = pygame.font.SysFont('PRIMETIME Regular', 90)
         self.images = []
+        self.hiro = []
         for i in range(7):
             image = pygame.image.load("hangman" + str(i) + ".png")
+            imahe = pygame.image.load("hiro" + str(i) + ".png")
+            self.hiro.append(imahe)
             self.images.append(image)
         #INGAME vars
+        self.hangman_posx = 30
+        self.hangman_posy = 70
         self.score = 0
         #self.won = False
         #self.lose = False
@@ -103,8 +107,16 @@ class Game():
         for ln in f:
             countries.append(ln.strip())
         print(countries)
-        file.close()
         self.words_countries = countries
+        file.close()
+        file = open('foods.txt', 'r')
+        f = file.readlines()
+        foods = []
+        for ln in f:
+            foods.append(ln.strip())
+        print(foods)
+        file.close()
+        self.words_foods = foods
         self.guessed = []
         self.font_name = pygame.font.get_default_font()
         self.BLACK, self.WHITE, self.BG = (0, 0, 0), (255, 255, 255),(70, 74, 86)
@@ -115,6 +127,8 @@ class Game():
 
     def randomize(self):
         sys.setrecursionlimit(1500)
+        self.hangman_posx = 30
+        self.hangman_posy = 70
         self.hangman_status = 0
         for letter in self.letters:
             x, y, ltr, visible = letter
@@ -126,6 +140,8 @@ class Game():
             self.word = random.choice(self.words_animal).upper()
         elif self.category == "Trees":
             self.word = random.choice(self.words_tree).upper()
+        elif self.category == "Foods":
+            self.word = random.choice(self.words_foods).upper()
         else:
             self.word = random.choice(self.words_countries).upper()
         print(self.word)
@@ -135,6 +151,7 @@ class Game():
 
         self.hint_btn.draw(self.display, None)
         self.display.blit(self.images[self.hangman_status], (15, 5))
+        self.display.blit(self.hiro[self.hangman_status], (self.hangman_posx, self.hangman_posy))
         categ_text = self.TITLE_FONT.render(self.category, 1, (218, 239, 244))
         self.display.blit(categ_text, (self.DISPLAY_W / 2 - categ_text.get_width() / 2, 50))
 
@@ -142,6 +159,8 @@ class Game():
         for letter in self.word:
             if letter in self.guessed:
                 display_word += letter + " "
+            elif letter == " ":
+                display_word += "  "
             else:
                 display_word += "_ "
         text = self.WORD_FONT.render(display_word, 1, (218, 239, 244))
@@ -228,6 +247,10 @@ class Game():
                             self.guessed.append(ltr)
                             if ltr not in self.word:
                                 self.hangman_status += 1
+                                if self.hangman_status < 6:
+                                    self.hangman_posy +=30;
+                                else:
+                                    self.hangman_posy+=100;
                 won = True
                 for letter in self.word:
                     if letter not in self.guessed:
@@ -245,12 +268,13 @@ class Game():
                             self.score = 0
                             self.guessed = []
                             self.hangman_status = 0
-
+                            self.hangman_posx = 30
+                            self.hangman_posy = 70
                             self.window.blit(self.display, (0, 0))
                             pygame.display.update()
                             self.randomize()
                             self.game_loop()
-                            pygame.time.delay(2400)
+                            pygame.time.delay(1800)
 
                         break
                 if won:
