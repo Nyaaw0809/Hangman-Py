@@ -184,7 +184,7 @@ class Game():
             if self.BACK_KEY:
                 self.playing= False
 
-            bg = pygame.image.load('BG.jpg')
+            bg = pygame.image.load('final.png')
             self.display.blit(bg, (0, 0))
             self.new_word()
             self.window.blit(self.display, (0,0))
@@ -227,6 +227,7 @@ class Game():
                         self.repeat_hint()
                         self.hint_count +=1
                     else:
+
                         print("hint used!")
                         self.display.fill(self.BG)
                         text = self.WORD_FONT.render("Hint for this round is used!",1,(218, 239, 244))
@@ -256,12 +257,10 @@ class Game():
                     if letter not in self.guessed:
                         won = False
                         if self.hangman_status >= 7:
-                            print("You lose!")
-                            lose = "You lose! The mystery word is " + self.word
-                            self.display.fill(self.BG)
-                            text = self.WORD_FONT.render(lose, 1, (218, 239, 244))
-                            self.display.blit(text, (
-                                self.DISPLAY_W / 2 - text.get_width() / 2, self.DISPLAY_H / 2 - text.get_height() / 2))
+                            bg = pygame.image.load('game_over.jpg')
+                            self.display.blit(bg, (0, 0))
+                            text = self.TITLE_FONT.render(self.word, 1, (218, 239, 244))
+                            self.display.blit(text, (self.DISPLAY_W / 2 - text.get_width() / 2, (self.DISPLAY_H / 2 - text.get_height() / 2) - 70))
 
                             self.playing = False
                             self.hint_count = 0

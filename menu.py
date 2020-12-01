@@ -36,7 +36,7 @@ class MainMenu(Menu):
             self.up =  pygame.image.load('up.png')
             self.down =  pygame.image.load('down.png')
             self.enter = pygame.image.load('return.png')
-            bg = pygame.image.load('BG.jpg')
+            bg = pygame.image.load('final.png')
             self.game.display.blit(bg,(0,0))
             self.game.display.blit(icon, ((self.game.DISPLAY_W / 2) - 285, (self.game.DISPLAY_H / 2 - 20) - 110))
             self.game.draw_text("Navigate: ", 20, 80, self.game.DISPLAY_H - 50)
