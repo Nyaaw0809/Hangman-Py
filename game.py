@@ -39,6 +39,13 @@ class Game():
     def __init__(self):
         pygame.init()
         self.hint_count = 0
+        self.bgMusic = pygame.mixer.music.load('BG_music.wav')
+        self.bgPlaying = True
+        self.mPressed = False
+        pygame.mixer.music.set_volume(0.03)
+        pygame.mixer.music.play(-1)
+        self.btnSound = pygame.mixer.Sound('btnClick.wav')
+        self.gameover_sound = pygame.mixer.Sound('ohno.wav')
         self.hint_btn = button((215, 203, 69),972, 417,200,90,'Hint')
         self.running, self.playing = True, False
         self.UP_KEY, self.DOWN_KEY, self.START_KEY, self.BACK_KEY, self.MOUSE_CLICK = False, False, False, False, False
@@ -220,10 +227,13 @@ class Game():
                     self.DOWN_KEY = True
                 if event.key == pygame.K_UP:
                     self.UP_KEY = True
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 m_x, m_y = pygame.mouse.get_pos()
                 if self.hint_btn.isOver(pos):
+
                     if self.hint_count == 0:
+                        self.btnSound.play()
                         self.repeat_hint()
                         self.hint_count +=1
                     else:
@@ -244,6 +254,7 @@ class Game():
                     if visible:
                         dis = math.sqrt((x - m_x) ** 2 + (y - m_y) ** 2)
                         if dis < self.RADIUS:
+                            self.btnSound.play()
                             letter[3] = False
                             self.guessed.append(ltr)
                             if ltr not in self.word:
@@ -257,6 +268,7 @@ class Game():
                     if letter not in self.guessed:
                         won = False
                         if self.hangman_status >= 7:
+                            self.gameover_sound.play()
                             bg = pygame.image.load('game_over.jpg')
                             self.display.blit(bg, (0, 0))
                             text = self.TITLE_FONT.render(self.word, 1, (218, 239, 244))
