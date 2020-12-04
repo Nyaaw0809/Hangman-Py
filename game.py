@@ -39,10 +39,10 @@ class Game():
     def __init__(self):
         pygame.init()
         self.hint_count = 0
-        self.bgMusic = pygame.mixer.music.load('BG_music.wav')
+        self.bgMusic = pygame.mixer.music.load('Experiment_2.wav')
         self.bgPlaying = True
         self.mPressed = False
-        pygame.mixer.music.set_volume(0.03)
+        pygame.mixer.music.set_volume(0.09)
         pygame.mixer.music.play(-1)
         self.btnSound = pygame.mixer.Sound('btnClick.wav')
         self.gameover_sound = pygame.mixer.Sound('ohno.wav')
@@ -219,6 +219,7 @@ class Game():
                 self.running, self.playing = False, False
                 self.curr_menu.run_display = False
             if event.type == pygame.KEYDOWN:
+                self.btnSound.play()
                 if event.key == pygame.K_RETURN:
                     self.START_KEY = True
                 if event.key == pygame.K_BACKSPACE:
